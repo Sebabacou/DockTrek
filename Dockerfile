@@ -1,11 +1,14 @@
-FROM debian:buster-slim AS BootStrap
+FROM ubuntu AS BootStrap
 
 RUN apt-get update && apt-get install -y nodejs npm
 
-COPY . ./app
 WORKDIR ./app
 
-RUN npm install
+COPY package*.json ./
+
 EXPOSE 3000
 
-CMD ["npm", "start"]
+RUN npm install
+COPY . .
+
+CMD ["node", "app.js"]
